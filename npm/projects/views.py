@@ -63,16 +63,20 @@ def Create(request):
         if(not(len(enroll_no)==10)):
             messages.add_message(request, messages.ERROR, 'Enrollment number Invalid.')
             return redirect("/project/create/")
+        
         if( not (validators.url(git_link))):
-            messages.add_message(request, messages.ERROR, 'Link Invalid.')
+            messages.add_message(request, messages.ERROR, 'Git Link Invalid.')
             return redirect("/project/create/")
         else:
             git_link = formaturl(git_link)
-        if( len(live_link)<0 and not (validators.url(live_link))):
-            messages.add_message(request, messages.ERROR, 'Link1 Invalid.')
+                        
+        if(len(live_link) and not (validators.url(live_link))):
+            messages.add_message(request, messages.ERROR, 'Live link Invalid.')
             return redirect("/project/create/")
         else:
             live_link = formaturl(live_link)
+            
+            
         if(request.user is None):
             messages.add_message(request, messages.ERROR, 'You are not Loggedin. ')
             return redirect("/account/login/")

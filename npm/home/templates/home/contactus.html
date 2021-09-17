@@ -11,15 +11,29 @@ border:none;
 {% endblock css %}
 
 {% block body %}
+{% if messages %}
+<ul class="messages list-unstyled">
+    {% for message in messages %}
+    <li {% if message.tags %}>
+
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong> {{ message }} </strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+{% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
 <div class="container">
     
     <div class="row">
         <h1 class="display-1">
             Contact Us
-        </h1>
+        </h1>      
         
         <div class="col-12">
-        <form action="/contactsubmit/" method="POST">
+        <form action="/contactsubmit/" method="POST" onsubmit="return isPhoneNumber()">
             {% csrf_token %}
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -31,11 +45,11 @@ border:none;
               <label for="name" class="form-label">Name</label>
               <input type="text" class="form-control" id="name" name="name">
             </div>
-        
+
             <div class="mb-3">
               <label for="phoneNum" class="form-label">Phone Number</label>
               <input type="tel" class="form-control" id="phoneNum" name="phone" aria-describedby="numHelp">
-              <div id="numHelp" class="form-text">We'll never share your Phone number with anyone else.</div>
+              <div id="numHelp"  class="form-text">We'll never share your Phone number with anyone else.</div>
             </div>
         
             <div class="form-floating mb-3">
@@ -46,7 +60,27 @@ border:none;
               <div class="input-group mb-3">
                 {% comment %} <input type="file" name="screenshot" class="form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" aria-label="Upload"> {% endcomment %}
               </div>
-        
+
+            <script>
+
+            function isPhoneNumber()
+            {
+                var inputtxt = document.getElementById("").value;
+                var phoneno = /^\d{10}$/;
+                if((inputtxt.value.match(phoneno))
+                {
+                  document.getElementById("numHelp").innerHTML = "";
+                  return true;
+                }
+                else
+                {
+                  document.getElementById("numHelp").innerHTML = "Please enter a valid mobile number";
+                  alert("Please enter a valid mobile number");
+                  return false;
+                }
+            }     
+
+            </script>
             <button type="submit" class="btn btn-dark contact" style="background-color: #563d7c;" "border-color:none;" >Submit</button>
           </form>
     </div>
